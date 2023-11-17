@@ -11,6 +11,8 @@ const userApplicationSchema = new mongoose.Schema({
   dob: String,
   experience: String,
   winningHistory: String,
+  location: String,
+  userRole : String,
 }); 
 
 // Create the model from the schema

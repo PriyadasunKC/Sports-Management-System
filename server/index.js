@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 // import the user model
 const UserApplicationModel = require('./models/userApplication');
+const UserApplicationTableModel = require('./models/userApplicationTable');
 
 
 
@@ -24,21 +25,20 @@ connection.once("open", function () {
 // req is the data we passing to the server
 // res is the response we get from the server
 // Using created model to access the database
-app.get("/getApplicationData", async(req, res) => {
- 
-  try {
-    const user = await UserApplicationModel.find({});
-    res.status(200).send({ user });
-  } catch (err) {
-    console.log(err);
-  }
+app.get("/getUserApplicationData", async (req, res) => {
+  UserApplicationModel.find({})
+    .then((users) => {
+      res.json(users);
+    })
+    .catch((err) => {
+      res.json(err);
+    });
 });
 
 // API to add data to the database
 app.post("/addUserApplicationData", async (req, res) => {
   UserApplicationModel.create(req.body)
     .then((users) => {
-      console.log("Data successfully inserted:", users);
       res.json(users);
     })
     .catch((err) => {
@@ -47,8 +47,16 @@ app.post("/addUserApplicationData", async (req, res) => {
     });
 });
 
-
-
+// API to access the userApplication Table Data
+app.get("/getUserApplicationTableData", async (req, res) => {
+  UserApplicationTableModel.find({})
+    .then((users) => {
+      res.json(users);
+    })
+    .catch((err) => {
+      res.json(err);
+    });
+});
 
 // Create the server
 app.listen(5000, () => {
